@@ -8,6 +8,65 @@ This was for a homework assignment for COMPE 560 @ San Diego State University.
 <img src="./screenshot.png"/>
 </details>
 
+# Setup
+You will need Python 3.x and the `pycryptodome` library.
+
+1. Create a python virtual environment
+
+   Run the following command while in the project directory:
+   ```bash
+   python -m venv .venv
+   ```
+
+2. Activate the environment
+
+   On MacOS or Linux, run the following command:
+   ```bash
+   source .venv/bin/activate
+   ```
+
+3. Install the dependencies
+
+   Once you enter the environment, install the dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+# Usage
+
+1. Run the server
+
+   ```bash
+   python server.py
+   ```
+
+   By default, the server will be listening on `0.0.0.0` (all available network interfaces) on port `12345`.
+   You will see log messages in the console indicating that the server has started and is ready to receive packets. Server logs (including errors and key events) will be printed to the standard output.
+
+2. Run the client(s)
+
+   **Ensure that the virtual environment is activated where you are running the client.**
+
+   For each chat client, open a new terminal or command prompt and **activate the virtual environment** in each one.
+   Navigate to the project directory.
+
+   Run the client python file, providing the server's host address and port as command-line arguments:
+
+    ```bash
+    python client.py <server_host> <server_port>
+    ```
+    * Replace `<server_host>` with the IP address or hostname of the machine running the server. If running on the same machine, you can use `localhost` or `127.0.0.1`.
+    * Replace `<server_port>` with the port the server is listening on (default is `12345`).
+
+    **Example:**
+    ```bash
+    python client.py localhost 12345
+    ```
+
+   Logs for the client are saved to `client.log` in the same directory.
+
+   To quit the client, press **Ctrl+C**.
+
 ## Description
 > You will implement a **server** and multiple **clients** that communicate over **UDP sockets**. The
 server handles message broadcasting between clients and performs the **initial secure key
