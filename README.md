@@ -4,9 +4,8 @@ by Gokul Swaminathan (Graduate Student)
 This was for a homework assignment for COMPE 560 @ San Diego State University.
 
 <details>
-<summary>Screenshot Preview</summary>
-<br>
-![screenshot](./screenshot.png)
+<summary><b>Screenshot Preview<b/></summary>
+<img src="./screenshot.png"/>
 </details>
 
 ## Description
