@@ -1,6 +1,7 @@
 # udp-chat-py
-Author: Gokul Swaminathan (Graduate Student)
-Course: COMPE 560 @ San Diego State University
+by Gokul Swaminathan (Graduate Student)
+
+This was for a homework assignment for COMPE 560 @ San Diego State University.
 
 ## Description
 > You will implement a **server** and multiple **clients** that communicate over **UDP sockets**. The
