@@ -75,3 +75,4 @@ dmypy.sock
 .venv/
 .ropeproject/
 *.log
+.DS_Store
