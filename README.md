@@ -67,15 +67,40 @@ You will need Python 3.x and the `pycryptodome` library.
 
    To quit the client, press **Ctrl+C**.
 
-## Description
-> You will implement a **server** and multiple **clients** that communicate over **UDP sockets**. The
-server handles message broadcasting between clients and performs the **initial secure key
-exchange**. Each client generates an RSA public/private key pair and sends the public key to the
-server. The server, in turn, generates a unique symmetric key (e.g., AES) for the client, encrypts
-it with the client’s public key, and sends it back.
-Once the key exchange is complete, all subsequent messages between the client and server will
-be **encrypted using the symmetric key**, ensuring confidentiality over the connectionless UDP
-protocol.
+# Important Details
+
+## Assumptions and Limitations
+
+* A basic reliability layer (sequence numbers, acknowledgements, timeouts, and limited retransmissions) has been implemented for chat messages sent *from* the client to the server. The server acknowledges these messages.
+
+* The initial key exchange (KEY_REQ from client, KEY_REP from server containing AES key) is handled with a single request from the client. If the server's KEY_REP is lost, the client does not automatically retry the KEY_REQ. It waits for the key, and messaging is blocked until the key is received.
+
+* Chat messages broadcast from the server to other clients are sent via best-effort UDP. There is no ACK mechanism from clients back to the server for these broadcast messages, so delivery is not guaranteed.
+
+* The reliability for client-to-server chat is basic (similar to stop-and-wait). It does not include advanced features like sliding windows, congestion control, or dynamic RTT estimation. Out-of-order DATA packets received by the server are ignored.
+
+* The server stores the AES key, public RSA key, and expected sequence number for each client in memory. If the server restarts, the data is lost.
+
+## Cryptographic Design
+
+This project uses a hybrid encryption design with `pycryptodome`:
+
+1. Key Exchange (RSA)
+   - Clients generate 2048-bit RSA key pairs. Public keys are sent to the server.
+   - The server generates a 128-bit AES key per client. The key is encrypted with the client's RSA public key and sent back.
+
+2. Message Encryption (AES)
+   - All chat messages are encrypted using AES-128 in CBC mode with the shared session key.
+   - A random 16-byte initialization vector (IV) is generated for each message and prepended to the ciphertext.
+   - Padding ensures that the plaintext is a multiple of the AES block size.
+
+3. Integrity and Authenticity (HMAC)
+   - HMAC-SHA256 is applied ot the *IV + Ciphertext* using the AES key.
+   - The HMAC tag is prepended.
+   - HMAC is verified before decryption.
+
+4. Safe Transmission (Base64 Encoding)
+   - The final payload and key exchange data are encoded for safe transmission.
 
 ## Requirements
 
