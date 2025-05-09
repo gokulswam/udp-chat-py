@@ -8,6 +8,8 @@ This was for a homework assignment for COMPE 560 @ San Diego State University.
 <img src="./screenshot.png"/>
 </details>
 
+### [Report (PDF)](https://github.com/gokulswam/udp-chat-py/blob/main/report.pdf)
+
 # Setup
 You will need Python 3.x and the `pycryptodome` library.
 
